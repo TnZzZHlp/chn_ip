@@ -1,12 +1,10 @@
-#[tokio::main]
-async fn main() {
+fn main() {
     // 下载IP数据
-    let ip_data = reqwest::get("https://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest")
-        .await
-        .unwrap()
-        .text()
-        .await
-        .unwrap();
+    let ip_data =
+        reqwest::blocking::get("https://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest")
+            .unwrap()
+            .text()
+            .unwrap();
 
     // 解析IP数据
     let ip_data = ip_data
