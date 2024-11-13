@@ -1,8 +1,9 @@
-name: Rust
+name: Update
 
 on:
   schedule:
     - cron: "0 * * * *"
+  workflow_dispatch:
 
 env:
   CARGO_TERM_COLOR: always
@@ -15,3 +16,17 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build
         run: cargo run
+
+      - name: Commit files
+        run: |
+          git config --local user.email "mayax@github.com"
+          git config --local user.name "mayaxcn"
+          git add .
+          git commit -m "Update $(date "+%Y-%m-%d %H:%M:%S")"
+
+      # 更新至远程github代码仓库中
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: master
