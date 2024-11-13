@@ -24,7 +24,7 @@ jobs:
           git config --local user.email "tnzzzhlp@outlook.com"
           git config --local user.name "TnZzZHlp"
           git add .
-          git commit -m "Update $(date "+%Y-%m-%d %H:%M:%S")"
+          git commit -m "Update $(date "+%Y-%m-%d %H:%M:%S")" || true
 
       # 更新至远程github代码仓库中
       - name: Push changes
