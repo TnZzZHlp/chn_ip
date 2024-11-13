@@ -19,8 +19,8 @@ jobs:
 
       - name: Commit files
         run: |
-          git config --local user.email "mayax@github.com"
-          git config --local user.name "mayaxcn"
+          git config --local user.email "tnzzzhlp@outlook.com"
+          git config --local user.name "TnZzZHlp"
           git add .
           git commit -m "Update $(date "+%Y-%m-%d %H:%M:%S")"
 
