@@ -19,10 +19,12 @@ jobs:
 
       - name: Commit files
         run: |
+          ls
           git config --local user.email "tnzzzhlp@outlook.com"
           git config --local user.name "TnZzZHlp"
           git add .
           git commit -m "Update $(date "+%Y-%m-%d %H:%M:%S")"
+          
 
       # 更新至远程github代码仓库中
       - name: Push changes
