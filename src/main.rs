@@ -1,17 +1,33 @@
+fn is_valid_cidr(cidr: &str) -> bool {
+    let Some((ip, prefix)) = cidr.split_once('/') else {
+        return false;
+    };
+    let Ok(ip) = ip.parse::<std::net::IpAddr>() else {
+        return false;
+    };
+    let Ok(prefix) = prefix.parse::<u8>() else {
+        return false;
+    };
+    match ip {
+        std::net::IpAddr::V4(_) => prefix <= 32,
+        std::net::IpAddr::V6(_) => prefix <= 128,
+    }
+}
+
 fn main() {
     // 下载IP数据
     let ip_data =
         reqwest::blocking::get("https://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest")
-            .unwrap()
+            .expect("failed to download APNIC delegated data")
             .text()
-            .unwrap();
+            .expect("failed to read APNIC delegated response body");
     let geo_as_ip_data =
         reqwest::blocking::get(
             "https://raw.githubusercontent.com/DH-Teams/DH-Geo_AS_IP_CN/refs/heads/main/Geo_AS_IP_CN_All.txt",
         )
-        .unwrap()
+        .expect("failed to download Geo_AS_IP_CN_All data")
         .text()
-        .unwrap();
+        .expect("failed to read Geo_AS_IP_CN_All response body");
 
     // 解析IP数据
     let ip_data = ip_data
@@ -48,7 +64,7 @@ fn main() {
     }
     for line in geo_as_ip_data.lines() {
         let cidr = line.trim();
-        if !cidr.is_empty() {
+        if !cidr.is_empty() && is_valid_cidr(cidr) {
             merged_ip_data.insert(cidr.to_string());
         }
     }
