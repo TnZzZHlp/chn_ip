@@ -74,5 +74,5 @@ fn main() {
     for cidr in merged_ip_data {
         output.push_str(&format!("{}\n", cidr));
     }
-    std::fs::write("ip_data.txt", output).unwrap();
+    std::fs::write("ip_data.txt", output).expect("failed to write ip_data.txt");
 }
